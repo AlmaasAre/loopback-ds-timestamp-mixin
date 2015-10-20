@@ -216,40 +216,6 @@ test('loopback datasource timestamps', function(tap) {
 
   });
 
-  tap.test('operation hook options', function(t) {
-
-    var Book = dataSource.createModel('Book',
-      { name: String, type: String },
-      { mixins: {  TimeStamp: true } }
-    );
-
-    t.test('should skip changing updatedAt when option passed', function(tt) {
-      var updated, book;
-      Book.destroyAll(function() {
-        Book.create({name:'book 1', type:'fiction'}, function(err, book1) {
-          tt.error(err);
-
-          tt.ok(book1.updatedAt);
-
-          updated = book1.updatedAt;
-          book = book1.toObject();
-          book.name = 'book 2';
-
-          Book.updateOrCreate(book, {skipUpdatedAt: true}, function(err, book2) {
-            tt.error(err);
-
-            tt.ok(book2.updatedAt);
-            tt.equal(updated.getTime(), book2.updatedAt.getTime());
-            tt.end();
-          });
-
-        });
-      });
-    });
-
-    t.end();
-  });
-
   tap.end();
 
 });

@@ -28,9 +28,6 @@ exports['default'] = function (Model) {
 
   Model.observe('before save', function (ctx, next) {
     debug('ctx.options', ctx.options);
-    if (ctx.options && ctx.options.skipUpdatedAt) {
-      return next();
-    }
     if (ctx.instance) {
       debug('%s.%s before save: %s', ctx.Model.modelName, options.updatedAt, ctx.instance.id);
       ctx.instance[options.updatedAt] = new Date();
